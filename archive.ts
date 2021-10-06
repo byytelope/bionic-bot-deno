@@ -1,3 +1,22 @@
+// @slash()
+// async restartbot(i: SlashCommandInteraction) {
+//   const hasPerms = i.member?.permissions.has("MANAGE_GUILD");
+
+//   if (!hasPerms) {
+//     await i.reply("You don't have the permission to use this command", {
+//       ephemeral: true,
+//     });
+//   } else {
+//     await fetch("https://api.heroku.com/apps/bionic-bot-deno", {
+//       headers: {
+//         Accept: "application/vnd.heroku+json; version=3",
+//         "Content-Type": "application/json",
+//       },
+//       method: "DELETE",
+//     });
+//   }
+// }
+
   // @slash()
   // async upgraderole(i: SlashCommandInteraction) {
   //   const memberObj = i.data.options[0];

@@ -1,13 +1,9 @@
 import { SlashCommandPartial } from "./deps.ts";
 
-export const commands: SlashCommandPartial[] = [
+export const commandPartials: SlashCommandPartial[] = [
   {
     name: "ping",
     description: "Check bot ping",
-  },
-  {
-    name: "restartbot",
-    description: "Restart the bot",
   },
   {
     name: "roles",

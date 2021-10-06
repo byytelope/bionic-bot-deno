@@ -18,7 +18,7 @@ import {
   SlashCommandInteraction,
   User,
 } from "./deps.ts";
-import { commands } from "./commands.ts";
+import { commandPartials } from "./command_partials.ts";
 import * as constants from "./constants.ts";
 import db from "./db.ts";
 import type { GuildConfig, ValorantRankInfo } from "./types.ts";
@@ -34,8 +34,8 @@ class DiscordBot extends Client {
       .toArray();
 
     guildConfigArr.forEach((guildConfig) => {
-      commands.forEach((command) => {
-        this.interactions.commands.create(command, guildConfig["guildId"])
+      commandPartials.forEach((commandPartial) => {
+        this.interactions.commands.create(commandPartial, guildConfig.guildId)
           .then((cmd) => console.log(`Slash command ${cmd.name} created`))
           .catch(() => console.log(`Failed to create a command!`));
       });
@@ -97,7 +97,7 @@ class DiscordBot extends Client {
           await member.roles.add(unverifiedRole);
 
           const embed = new Embed({
-            title: "Welcome to Bionic!",
+            title: "Please read below",
             description:
               `To unlock the server, please react to this message with ☑️. Enjoy your stay ${member.user.mention}!\n\n*Please rejoin the server if verification does not work.*`,
             thumbnail: { url: member.user.avatarURL() },
@@ -163,26 +163,7 @@ class DiscordBot extends Client {
 
   @slash()
   async ping(i: SlashCommandInteraction) {
-    await i.reply(`🏓 ${this.gateway.ping.toString()}ms`);
-  }
-
-  @slash()
-  async restartbot(i: SlashCommandInteraction) {
-    const hasPerms = i.member?.permissions.has("MANAGE_GUILD");
-
-    if (!hasPerms) {
-      await i.reply("You don't have the permission to use this command", {
-        ephemeral: true,
-      });
-    } else {
-      await fetch("https://api.heroku.com/apps/bionic-bot-deno", {
-        headers: {
-          Accept: "application/vnd.heroku+json; version=3",
-          "Content-Type": "application/json",
-        },
-        method: "DELETE",
-      });
-    }
+    await i.reply(`🏓 ${i.client.gateway.ping.toString()}ms`);
   }
 
   @slash()
