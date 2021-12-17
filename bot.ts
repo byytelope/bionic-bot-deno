@@ -13,10 +13,10 @@ import {
   MessageComponentData,
   MessageComponentOption,
   MessageComponentType,
-  Reaction,
+  // Reaction,
   slash,
   SlashCommandInteraction,
-  User,
+  // User,
 } from "./deps.ts";
 import { commandPartials } from "./command_partials.ts";
 import * as constants from "./constants.ts";
@@ -79,9 +79,9 @@ class DiscordBot extends Client {
     );
 
     if (doc != null) {
-      const unverifiedRole = await member.guild.roles.get(
-        doc.primaryRoleIds.unverified,
-      );
+      // const unverifiedRole = await member.guild.roles.get(
+      //   doc.primaryRoleIds.unverified,
+      // );
 
       const defaultRole = await member.guild.roles.get(
         doc.primaryRoleIds.verified,
@@ -93,51 +93,51 @@ class DiscordBot extends Client {
       if (member.user.bot && botRole != null) {
         await member.roles.add(botRole);
       } else {
-        if (unverifiedRole != null && defaultRole != null) {
-          await member.roles.add(unverifiedRole);
+        // if (unverifiedRole != null && defaultRole != null) {
+        //   await member.roles.add(unverifiedRole);
 
-          const embed = new Embed({
-            title: "Please read below",
-            description:
-              `To unlock the server, please react to this message with ☑️. Enjoy your stay ${member.user.mention}!\n\n*Please rejoin the server if verification does not work.*`,
-            thumbnail: { url: member.user.avatarURL() },
-            footer: {
-              text: member.guild.name!,
-              icon_url: member.guild.iconURL(),
-            },
-            color: ColorUtil.resolveRGB(constants.colorsArr["bionic"]),
-          });
+        //   const embed = new Embed({
+        //     title: "Please read below",
+        //     description:
+        //       `To unlock the server, please react to this message with ☑️. Enjoy your stay ${member.user.mention}!\n\n*Please rejoin the server if verification does not work.*`,
+        //     thumbnail: { url: member.user.avatarURL() },
+        //     footer: {
+        //       text: member.guild.name!,
+        //       icon_url: member.guild.iconURL(),
+        //     },
+        //     color: ColorUtil.resolveRGB(constants.colorsArr["bionic"]),
+        //   });
 
-          if (welcomeCh != null && welcomeCh.isGuildText()) {
-            await welcomeCh.send({ embed: embed });
+        //   if (welcomeCh != null && welcomeCh.isGuildText()) {
+        //     await welcomeCh.send({ embed: embed });
 
-            const collector = new Collector({
-              event: "messageReactionAdd",
-              filter: (_, user: User) => user.id === member.id,
-              deinitOnEnd: true,
-              max: 1,
-            });
+        //     const collector = new Collector({
+        //       event: "messageReactionAdd",
+        //       filter: (_, user: User) => user.id === member.id,
+        //       deinitOnEnd: true,
+        //       max: 1,
+        //     });
 
-            collector.init(this);
-            collector.collect();
+        //     collector.init(this);
+        //     collector.collect();
 
-            collector.on("collect", async (reaction: Reaction, _) => {
-              if (reaction.emoji.name === "☑️") {
-                await member.roles.add(defaultRole!);
-                await member.roles.remove(unverifiedRole!);
+        //     collector.on("collect", async (reaction: Reaction, _) => {
+        //       if (reaction.emoji.name === "☑️") {
+        //         await member.roles.add(defaultRole!);
+        //         await member.roles.remove(unverifiedRole!);
 
-                const userDm = await member.user.createDM();
+        //         const userDm = await member.user.createDM();
 
-                await userDm.send(
-                  "You have been successfully verified! Use `/roles` to get your preferred roles. Feel free to contact an admin if you need any help.",
-                );
+        //         await userDm.send(
+        //           "You have been successfully verified! Use `/roles` to get your preferred roles. Feel free to contact an admin if you need any help.",
+        //         );
 
-                console.log(`New member ${member.user.tag} has been verified`);
-                collector.end();
-              }
-            });
-          }
-        } else {
+        //         console.log(`New member ${member.user.tag} has been verified`);
+        //         collector.end();
+        //       }
+        //     });
+        //   }
+        // } else {
           if (defaultRole != null) {
             await member.roles.add(defaultRole);
           }
@@ -156,7 +156,7 @@ class DiscordBot extends Client {
           if (welcomeCh != null && welcomeCh.isGuildText()) {
             await welcomeCh.send({ embed: embed });
           }
-        }
+        // }
       }
     }
   }
